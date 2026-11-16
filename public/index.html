@@ -38,7 +38,7 @@
 
     <section class="card">
       <h2><span class="n">1</span>Install the Claude Code CLI</h2>
-      <p>Skip this if <code>claude --version</code> already works in your terminal.</p>
+      <p>Skip this if <code>claude --version</code> already works in your terminal. Each person sets this up on their own computer with their own Claude plan.</p>
       <div class="tabs" data-tabs="install">
         <button class="tab on" data-tab="win">Windows</button>
         <button class="tab" data-tab="mac">macOS / Linux</button>
@@ -56,6 +56,8 @@
         <li>Type <code>/login</code>, pick <b>Claude account with subscription</b>, and finish the sign-in in your browser.</li>
         <li>Close the CLI with <code>/exit</code>. Your login stays stored by the CLI itself.</li>
       </ol>
+      <p><b>No setup token or API key is needed.</b> The normal <code>/login</code> is enough: the CLI remembers your login on this computer and the gateway uses it automatically.
+        Only on a machine without a browser would you use <code>claude setup-token</code> and start the gateway with <code>CLAUDE_CODE_OAUTH_TOKEN</code> set (see the README).</p>
       <p class="note">This tool never asks for, reads or stores your Claude password or login token. It only starts the <code>claude</code> command on this computer, exactly as you would.</p>
     </section>
 

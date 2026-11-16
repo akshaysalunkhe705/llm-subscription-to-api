@@ -14,31 +14,57 @@ No dependencies. One `node server.js`.
 
 ## Quick start
 
-Requirements: Node.js 18+, and a recent Claude Code CLI (2.1 or newer).
+Everyone sets this up on their own computer with their own paid Claude plan. It takes about five minutes.
+
+**1. Install Node.js 18 or newer** from [nodejs.org](https://nodejs.org). Skip this if `node --version` works.
+
+**2. Install the Claude Code CLI** (version 2.1 or newer). Skip this if `claude --version` works.
 
 ```bash
-# 1. Install the Claude Code CLI (skip if `claude --version` works)
-#    Windows PowerShell:
+# Windows PowerShell
 irm https://claude.ai/install.ps1 | iex
-#    macOS / Linux:
+
+# macOS / Linux
 curl -fsSL https://claude.ai/install.sh | bash
+```
 
-# 2. Log in with your subscription: run `claude`, type /login, finish in the browser, then /exit
+**3. Log in with your Claude subscription.**
 
-# 3. Start the gateway
+1. Run `claude` in a terminal.
+2. Type `/login` and choose the Claude subscription option.
+3. Finish the sign-in in your browser.
+4. Type `/exit`.
+
+That is all the gateway needs. You do **not** need a setup token, an API key, or to copy anything from the CLI: the CLI keeps your login on this computer and the gateway simply runs `claude`. (See [Headless machines](#headless-machines) if you cannot open a browser.)
+
+**4. Download and start the gateway.** There is no `npm install` step.
+
+```bash
 git clone https://github.com/akshaysalunkhe705/llm-subscription-to-api.git
 cd llm-subscription-to-api
 npm start
 ```
 
-The terminal prints a dashboard link:
+**5. Open the dashboard link** printed in the terminal:
 
 ```
 Dashboard (one-click sign in):
   http://127.0.0.1:8787/#token=...
 ```
 
-Open it, follow the five steps on the page, and create a key. The key is shown **once**.
+**6. Follow the steps on the dashboard.** Check that step 3 shows the CLI as found and logged in, send the test prompt, then create a key. The key is shown **once**, so copy it straight away.
+
+**7. Use the key in your app** with base URL `http://127.0.0.1:8787`. Examples are below and on the dashboard.
+
+### Headless machines
+
+On a machine with no browser (a server over SSH, a container), the `/login` step cannot complete. Instead, run `claude setup-token` on a computer that does have a browser, then start the gateway on the headless machine with the token it prints:
+
+```bash
+CLAUDE_CODE_OAUTH_TOKEN=<token from setup-token> npm start
+```
+
+The gateway passes this variable through to the CLI unchanged. Treat the token like a password. This route is optional and has had less testing than the normal `/login`.
 
 ## Using the API
 
