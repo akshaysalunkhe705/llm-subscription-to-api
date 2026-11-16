@@ -12,6 +12,34 @@ No dependencies. One `node server.js`.
 
 > **Read this first.** This is for personal, local use. It does not extract or reuse your Claude login token; it simply runs the `claude` command on your machine. Your plan's usage limits and Anthropic's terms still apply. Do not share keys, host this for other people, or build a product on it. For anything shared, commercial or customer-facing, use a real API key from the [Claude Developer Platform](https://platform.claude.com/).
 
+## Is this right for you? Gateway vs. the Claude API
+
+The main benefit is cost: requests draw on the Claude plan you already pay for instead of being billed per token. In most other ways the real Claude API is better.
+
+**Where this gateway wins**
+
+- **No per-token bill.** Usage counts against your subscription's limits, so a hobby project or experiment costs nothing beyond the plan.
+- **No surprise charges.** When you hit the plan limit, requests fail until it resets; there is no bill that can run away.
+- **Nothing to sign up for.** No Developer Platform account or billing setup; if the CLI is logged in, you can start.
+- **Two API styles at once.** The same local key works with both Anthropic-style and OpenAI-style clients.
+- **Local key controls.** You create, limit, expire and revoke keys yourself in the dashboard.
+
+**Where the real Claude API wins**
+
+| | This gateway | Claude API |
+| --- | --- | --- |
+| Allowed use | Personal, on your own computer | Products, teams, customers |
+| Features | Text only | Images, tool use, files, structured output and the rest |
+| Controls | `max_tokens` and `temperature` ignored | Full control |
+| Speed | A few seconds of CLI startup on every call | No CLI startup |
+| Volume | 2 requests at a time, shared with your own Claude usage | Many requests in parallel, with higher limits |
+| Where it runs | Only the machine you are logged in on | Any server |
+| Reliability | Depends on the CLI staying compatible | A stable, supported interface |
+
+Heavy use through the gateway eats into the same limits you rely on for Claude Code and the Claude apps, so a busy script can leave you rate-limited in your normal work.
+
+**Rule of thumb:** use this for personal tools, prototypes and learning on your own machine. For anything other people will use, anything deployed to a server, or anything needing images or tools, use a [Claude API key](https://platform.claude.com/).
+
 ## Quick start
 
 Everyone sets this up on their own computer with their own paid Claude plan. It takes about five minutes.
