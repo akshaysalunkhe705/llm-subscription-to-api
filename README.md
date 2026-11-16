@@ -26,7 +26,7 @@ curl -fsSL https://claude.ai/install.sh | bash
 # 2. Log in with your subscription: run `claude`, type /login, finish in the browser, then /exit
 
 # 3. Start the gateway
-git clone https://github.com/newgenesys7/llm-subscription-to-api.git
+git clone https://github.com/akshaysalunkhe705/llm-subscription-to-api.git
 cd llm-subscription-to-api
 npm start
 ```
