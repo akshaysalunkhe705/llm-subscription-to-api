@@ -1,5 +1,9 @@
 # LLM Subscription to API
 
+### Already paying for Claude? Turn that plan into a local API for your own projects, with no per-token bill.
+
+No extra account. No billing setup. No runaway charges. Five minutes from `git clone` to your first request.
+
 A small, local gateway that lets **your own apps on your own computer** talk to Claude through the official [Claude Code CLI](https://claude.com/claude-code) you are already logged in to with your Claude subscription.
 
 It gives you:
