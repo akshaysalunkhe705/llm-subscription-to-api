@@ -82,8 +82,9 @@ async function loadKeys() {
   for (const k of data.keys) {
     const tr = document.createElement('tr');
     const expired = k.expiresAt && k.expiresAt < Date.now();
-    const cells = [k.name, k.prefix + '…', fmt(k.createdAt), fmt(k.lastUsedAt),
-      k.expiresAt ? (expired ? 'expired' : fmt(k.expiresAt)) : 'never', `${k.rpm}/min`, String(k.requests)];
+    const day = (t) => new Date(t).toLocaleDateString([], { dateStyle: 'medium' });
+    const cells = [k.name, k.prefix + '…', day(k.createdAt), fmt(k.lastUsedAt),
+      k.expiresAt ? (expired ? 'expired' : day(k.expiresAt)) : 'never', `${k.rpm}/min`, String(k.requests)];
     cells.forEach((c, i) => {
       const td = document.createElement('td');
       if (i === 1) { const code = document.createElement('code'); code.textContent = c; td.append(code); }
