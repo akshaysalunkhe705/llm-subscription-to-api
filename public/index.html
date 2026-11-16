@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>LLM Subscription to API</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-row">
+    <div>
+      <h1>LLM Subscription to API</h1>
+      <p class="sub">A private, local API for your own apps, powered by the Claude Code CLI you are logged in to.</p>
+    </div>
+    <div class="top-actions">
+      <span id="pill" class="pill">Checking…</span>
+      <button id="logout" class="ghost" hidden>Sign out</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="gate" class="card" hidden>
+    <h2>Sign in to the dashboard</h2>
+    <p>When you ran <code>npm start</code>, the terminal printed a dashboard link ending in <code>#token=…</code>.
+      Open that link, or paste the token here. The token changes every time the server restarts.</p>
+    <form id="login-form" class="row">
+      <input id="login-token" type="password" autocomplete="off" placeholder="Admin token from the terminal" aria-label="Admin token">
+      <button type="submit">Sign in</button>
+    </form>
+    <p id="login-err" class="err" role="alert"></p>
+  </section>
+
+  <div id="app" hidden>
+
+    <section class="card">
+      <h2><span class="n">1</span>Install the Claude Code CLI</h2>
+      <p>Skip this if <code>claude --version</code> already works in your terminal.</p>
+      <div class="tabs" data-tabs="install">
+        <button class="tab on" data-tab="win">Windows</button>
+        <button class="tab" data-tab="mac">macOS / Linux</button>
+        <button class="tab" data-tab="npm">npm</button>
+      </div>
+      <pre class="code" data-pane="install:win"><code>irm https://claude.ai/install.ps1 | iex</code></pre>
+      <pre class="code" data-pane="install:mac" hidden><code>curl -fsSL https://claude.ai/install.sh | bash</code></pre>
+      <pre class="code" data-pane="install:npm" hidden><code>npm install -g @anthropic-ai/claude-code</code></pre>
+    </section>
+
+    <section class="card">
+      <h2><span class="n">2</span>Log in with your Claude subscription</h2>
+      <ol class="steps">
+        <li>Open a terminal and run <code>claude</code>.</li>
+        <li>Type <code>/login</code>, pick <b>Claude account with subscription</b>, and finish the sign-in in your browser.</li>
+        <li>Close the CLI with <code>/exit</code>. Your login stays stored by the CLI itself.</li>
+      </ol>
+      <p class="note">This tool never asks for, reads or stores your Claude password or login token. It only starts the <code>claude</code> command on this computer, exactly as you would.</p>
+    </section>
+
+    <section class="card">
+      <h2><span class="n">3</span>Check the connection</h2>
+      <dl id="status" class="status"></dl>
+      <div class="row">
+        <button id="recheck" class="ghost">Check again</button>
+      </div>
+      <form id="test-form" class="row">
+        <input id="test-prompt" value="Reply with one short friendly sentence." maxlength="2000" aria-label="Test prompt">
+        <button type="submit" id="test-btn">Send test prompt</button>
+      </form>
+      <pre id="test-out" class="out" hidden></pre>
+    </section>
+
+    <section class="card">
+      <h2><span class="n">4</span>Create an API key</h2>
+      <p>Each app should get its own key, so you can revoke one without breaking the others.</p>
+      <form id="key-form" class="row wrap-row">
+        <input id="key-name" placeholder="Key name, e.g. my-notes-app" maxlength="60" required aria-label="Key name">
+        <label class="inline">Expires
+          <select id="key-exp">
+            <option value="30">in 30 days</option>
+            <option value="7">in 7 days</option>
+            <option value="90">in 90 days</option>
+            <option value="0">never</option>
+          </select>
+        </label>
+        <label class="inline">Limit
+          <input id="key-rpm" type="number" min="1" max="600" value="30" class="small"> req/min
+        </label>
+        <button type="submit">Create key</button>
+      </form>
+      <p id="key-err" class="err" role="alert"></p>
+
+      <div id="new-key" class="newkey" hidden>
+        <b>Copy this key now. It is shown only once and cannot be recovered.</b>
+        <div class="row">
+          <code id="new-key-value"></code>
+          <button id="new-key-copy" class="ghost">Copy</button>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Name</th><th>Key</th><th>Created</th><th>Last used</th><th>Expires</th><th>Limit</th><th>Requests</th><th></th></tr></thead>
+          <tbody id="keys"></tbody>
+        </table>
+      </div>
+      <p id="no-keys" class="muted" hidden>No keys yet.</p>
+    </section>
+
+    <section class="card">
+      <h2><span class="n">5</span>Use it from your app</h2>
+      <p>Point any Anthropic- or OpenAI-style client at <code class="base"></code> and use your key.
+        Models: <code>sonnet</code>, <code>opus</code>, <code>haiku</code>, <code>fable</code> or a full <code>claude-…</code> id.</p>
+      <div class="tabs" data-tabs="use">
+        <button class="tab on" data-tab="curl">curl</button>
+        <button class="tab" data-tab="py">Python (Anthropic SDK)</button>
+        <button class="tab" data-tab="js">JavaScript</button>
+        <button class="tab" data-tab="oai">OpenAI-style</button>
+      </div>
+      <pre class="code" data-pane="use:curl"><code id="snip-curl"></code></pre>
+      <pre class="code" data-pane="use:py" hidden><code id="snip-py"></code></pre>
+      <pre class="code" data-pane="use:js" hidden><code id="snip-js"></code></pre>
+      <pre class="code" data-pane="use:oai" hidden><code id="snip-oai"></code></pre>
+      <p class="muted">Supported: text messages, system prompts, multi-turn chat, streaming (<code>"stream": true</code>).
+        Not supported: images, tool use, and sampling settings such as <code>temperature</code> or <code>max_tokens</code> (accepted but ignored).</p>
+    </section>
+
+    <section class="card">
+      <h2>Security</h2>
+      <div class="cols">
+        <div>
+          <h3>What the gateway does for you</h3>
+          <ul>
+            <li>Listens on <code>127.0.0.1</code> only, so other devices cannot reach it.</li>
+            <li>Stores only a SHA-256 hash of each key; the key itself is never saved.</li>
+            <li>Per-key rate limits, expiry dates, and instant revoke.</li>
+            <li>Locks out a client after repeated wrong keys.</li>
+            <li>Dashboard needs a token that exists only in your terminal, and rejects requests from other websites.</li>
+            <li>Claude runs with all tools switched off: it cannot run commands or read your files.</li>
+            <li>Activity log records metadata only, never your prompts or replies.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Your part</h3>
+          <ul>
+            <li>Treat keys like passwords. Keep them in environment variables, never in git.</li>
+            <li>Do not expose this port to the internet or put it behind a public tunnel.</li>
+            <li>Use it for your own personal projects on this computer. Do not share or resell access; your plan's usage limits and Anthropic's terms still apply.</li>
+            <li>For a product, a team, or anything customer-facing, use a real key from the Claude Developer Platform instead.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="wrap muted foot">Runs entirely on this computer. Not affiliated with Anthropic.</footer>
+<script src="/app.js"></script>
+</body>
+</html>

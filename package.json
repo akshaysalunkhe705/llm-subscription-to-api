@@ -1,0 +1,14 @@
+{
+  "name": "llm-subscription-to-api",
+  "version": "1.0.0",
+  "description": "Local, secured API gateway that lets your own apps talk to Claude through the official Claude Code CLI you are already logged in to.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "private": true
+}
