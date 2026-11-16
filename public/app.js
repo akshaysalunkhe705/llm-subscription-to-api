@@ -15,8 +15,8 @@ async function api(method, url, body) {
   return data;
 }
 
-function showGate() { $('gate').hidden = false; $('app').hidden = true; $('logout').hidden = true; setPill('Signed out', ''); }
-function showApp() { $('gate').hidden = true; $('app').hidden = false; $('logout').hidden = false; }
+function showGate() { $('gate').hidden = false; $('locked').hidden = false; $('app').hidden = true; $('logout').hidden = true; setPill('Signed out', ''); }
+function showApp() { $('gate').hidden = true; $('locked').hidden = true; $('app').hidden = false; $('logout').hidden = false; }
 function setPill(text, cls) { const p = $('pill'); p.textContent = text; p.className = 'pill ' + cls; }
 
 const fmt = (t) => (t ? new Date(t).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }) : 'never');

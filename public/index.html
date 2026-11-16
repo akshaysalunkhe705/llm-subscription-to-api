@@ -23,19 +23,6 @@
 
 <main class="wrap">
 
-  <section id="gate" class="card" hidden>
-    <h2>Sign in to the dashboard</h2>
-    <p>When you ran <code>npm start</code>, the terminal printed a dashboard link ending in <code>#token=…</code>.
-      Open that link, or paste the token here. The token changes every time the server restarts.</p>
-    <form id="login-form" class="row">
-      <input id="login-token" type="password" autocomplete="off" placeholder="Admin token from the terminal" aria-label="Admin token">
-      <button type="submit">Sign in</button>
-    </form>
-    <p id="login-err" class="err" role="alert"></p>
-  </section>
-
-  <div id="app" hidden>
-
     <section class="card">
       <h2><span class="n">1</span>Install the Claude Code CLI</h2>
       <p>Skip this if <code>claude --version</code> already works in your terminal. Each person sets this up on their own computer with their own Claude plan.</p>
@@ -61,6 +48,24 @@
       <p class="note">This tool never asks for, reads or stores your Claude password or login token. It only starts the <code>claude</code> command on this computer, exactly as you would.</p>
     </section>
 
+    <section id="gate" class="card" hidden>
+      <h2><span class="n">3</span>Sign in to this dashboard</h2>
+      <p>Checking the connection and creating keys are locked, so that only you can do them.
+        When you ran <code>npm start</code>, the terminal printed a dashboard link ending in <code>#token=…</code>.
+        Open that link, or paste the token here. The token changes every time the server restarts.</p>
+      <form id="login-form" class="row">
+        <input id="login-token" type="password" autocomplete="off" placeholder="Admin token from the terminal" aria-label="Admin token">
+        <button type="submit">Sign in</button>
+      </form>
+      <p id="login-err" class="err" role="alert"></p>
+    </section>
+
+    <section id="locked" class="card" hidden>
+      <h2><span class="n">4</span>Create an API key</h2>
+      <p class="muted">Sign in above to check your connection and create, view or revoke keys. Each app should get its own key.</p>
+    </section>
+
+    <div id="app" hidden>
     <section class="card">
       <h2><span class="n">3</span>Check the connection</h2>
       <dl id="status" class="status"></dl>
@@ -110,6 +115,7 @@
       </div>
       <p id="no-keys" class="muted" hidden>No keys yet.</p>
     </section>
+    </div>
 
     <section class="card">
       <h2><span class="n">5</span>Use it from your app</h2>
@@ -155,7 +161,6 @@
         </div>
       </div>
     </section>
-  </div>
 </main>
 
 <footer class="wrap muted foot">Runs entirely on this computer. Not affiliated with Anthropic.</footer>
